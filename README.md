@@ -11,3 +11,24 @@ This project is a work in progress, here are the necessary improvements to be ma
 
 -build in functions to tell how many produts are left in stock
 -will be used to advertise new products for the next stock items
+
+
+How to access the app on a local machine
+
+1. clone the repository
+2. Install NodeJS (version )
+3. install truffle : npm install -g truffle
+3.install ganache GUI and CLI : npm install -g ganache-cli
+
+4. config the host in "truffle.config"
+5 then run : npm install
+
+Getting the app ready:
+To compile and migrate the contracts, run
+truffle compile
+truffle migrate
+Then start the DApp via
+npm run dev
+If this doesn't work, try to open the "index.html" file with live server.
+Running unit tests:
+truffle tests
