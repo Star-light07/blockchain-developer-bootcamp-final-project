@@ -13,7 +13,7 @@ This project is a work in progress, here are the necessary improvements to be ma
 -will be used to advertise new products for the next stock items
 
 
-How to access the app on a local machine
+## How to access the app on a local machine
 
 1. clone the repository
 2. Install NodeJS (version )
@@ -32,3 +32,5 @@ npm run dev
 If this doesn't work, try to open the "index.html" file with live server.
 Running unit tests:
 truffle tests
+
+
