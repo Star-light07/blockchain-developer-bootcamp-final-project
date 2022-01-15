@@ -1,0 +1,3 @@
+# blockchain-developer-bootcamp-final-project
+This project is  online store that sales pink items, any products. Due to the fact that people buy stuff online without the gurantee of weather they'll receive the item or not, I've decided to adopt this idea where both the customer and the owner of the store deposits double the amount of a certain item and when the customer receives the item, they'll comfirm they have received. this will automatically cause the smart contract to refund half the amount the customer paid and three times more the amount the owner paid. If the customer doesn't comfirm, they both lose the money forever.
+
