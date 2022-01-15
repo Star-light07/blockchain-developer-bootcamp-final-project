@@ -20,47 +20,82 @@ contract("PinkShop", (accounts) => {
   });
 
   //testing the
-  describe("makes an order and call the account address", async () => {
-    before("make an order using[0]", async () => {
-      await pinkshop.numberOfOrders(0, { from: accounts[0] });
-      expectedcustomers = accounts[0];
+  //Testing the book-function: book the appointment with id 0 and assign it to the account 0
+  //Should return the expected customer
+  describe("buying an Item and retrieving account addresses", async () => {
+    before("book an item using accounts[1]", async () => {
+      await pinkShop.buyItem(0, 1, { from: accounts[1], value: 1 });
+      buyer = accounts[1];
     });
 
-    it("can fetch the customer's order id", async () => {
-      const customers = await numberOfOrders.customers(0);
+    it("can fetch the address of a customer by item id", async () => {
+      const customer = await pinkShop.customers(0);
       assert.equal(
-        customers,
-        expectedcustomers,
-        "The bake for the first order first."
+        customer,
+        buyer,
+        "The owner of the item should be the account at index one."
       );
     });
-    describe("valuable assignment", async () => {
-      it("checking the if the seller is refunded 3 times the deposited amount", async () => {
-        const balance = seller.balance;
 
-        const result = await pinkShop.refundstoreOwner();
-        const event = result.logs[0].args;
+    //Call the customer's smart contract method to see the address of the customer who booked the appointment with Id 0
+    // Then we test the retrieval of all customers who booked an appointment and compare the contract adress with the one whe should find
+    it("can fetch the collection of all items", async () => {
+      const items = await pinkShop.getInventory();
+      assert.equal(
+        items[0].buyer,
+        buyer,
+        "The owner of the item should be saved for the item."
+      );
+    });
 
-        assert.equal(event, "");
-        assert.equal(state === State.Inactive);
-        assert.equal(seller.balance, balance + 3 * value);
-      });
-      it("is able to accept funds from customer", async () => {
-        const balance = customer.transfer(value);
+    // Test that item cant be sold twice
+    it("should not sell an item twice", async () => {
+      await pinkShop
+        .buyItem(0, 1, { from: accounts[0], value: 1 })
+        .catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert"
+          );
+        });
+    });
 
-        await pinkShop.comfirmPurchase();
-        const result = await pinkShop.comfirmPurchase();
-        const event = result.logs[0].args;
-        assert.equal(event, "");
-        assert.equal(state === State.Inactive);
-        assert.equal(customer.balance, balance + 3 * value);
-      });
-      it("should be able to comfirm purchase", async () => {
-        const result = await pinkShop.comfirmPurchase();
-        const event = result.logs[0].args;
-        // assert.equal(state === state.Created);
-        assert.equal(event, "purchase has been comfirmed");
-      });
+    // //Test if enough money was payed
+    it("should not sell if not enough money is send", async () => {
+      await pinkShop
+        .buyItem(1, 1, { from: accounts[0], value: 0 })
+        .catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert not enough money send -- Reason given: not enough money send."
+          );
+        });
+    });
+
+    //Test if item exists
+    it("should revert if item doenst exist", async () => {
+      await pinkShop
+        .buyItem(16, 1, { from: accounts[0], value: 1 })
+        .catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert item doesn'T exist -- Reason given: item doesn'T exist."
+          );
+        });
+    });
+
+    // Get back the number of bookings, should not be more than 6
+    it("should return the number of items", async () => {
+      const items = await pinkShop.getInventory();
+      // assert.equal(items, 16);
+      assert.equal(items.length, 16);
+    });
+
+    // Get back the number of bookings, should not be more than 6
+    it("should return the max number of customers", async () => {
+      const customers = await pinkShop.getCustomers();
+      // assert.equal(customers, 16);
+      assert.equal(customers.length, 16);
     });
   });
 });

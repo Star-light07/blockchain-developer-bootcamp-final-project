@@ -1,122 +1,65 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity 0.8.10;
 
-//import "@openzeppelin/contracts/finance/PaymentSplitter.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-//import "@openzeppelin/contracts/ownership/Ownable.sol";
-
-contract PinkShop {
-    enum State {
-        Created,
-        Locked,
-        Release,
-        Inactive
-        /// the state variablehas a defualt value of the first mumber, `state.created`
-        ///the defult value of the state variables will be created, it being the first member
+contract PinkShop is Ownable {
+    struct Item {
+        uint256 id;
+        uint256 price;
+        address payable buyer;
     }
 
-    State public state;
+    address[16] public customers;
+    Item[16] public items;
 
-    uint256 public value;
-    address payable public seller;
-    address payable public customer;
+    mapping(uint256 => address) itemToOwner;
+    mapping(uint256 => bool) soldItems;
 
-    modifier onlyCustomer(address _customer) {
-        require(
-            msg.sender == customer,
-            "only the customr can call this function"
-        );
-        _;
-    }
-    modifier onlySeller(address _seller) {
-        require(msg.sender == seller, "only seller can call this function");
+    modifier paidEnough(uint256 _price) {
+        require(msg.value >= _price, "not enough money send");
         _;
     }
 
-    modifier instate(State _state) {
-        require(
-            state == _state,
-            "When at current state this function can not be called"
-        );
+    modifier itemNotSold(uint256 _id) {
+        require(!soldItems[_id], "item already sold");
+        _;
+    }
+    modifier itemExists(uint256 _itemId) {
+        require(_itemId >= 0 && _itemId <= 15, "item doesn'T exist");
         _;
     }
 
-    modifier condition() {
-        require(msg.value == (2 * value));
-        // payable;
-        _;
-    }
+    // <LogSold event: id arg>
+    event LogSold(uint256 id);
 
-    event Aborted();
-    event PurchaseConfirmed();
-    event ItemReceived();
-    event SellerRefunded();
-
-    ///@dev Must ensure that `msg.value` is an even number.
-    ///@dev If it's an odd number, the division will trancate.
-    ///@dev you can check via multiplication if it was not an odd number.
-
-    constructor() payable {
-        require((2 * msg.value) / 2 == msg.value, "value is not even");
-
-        seller = payable(msg.sender);
-        value = msg.value / 2;
-    }
-
-    ///@dev It reclaims the ether and aborts the purchase
-    ///@dev Can only be called by the storeOwner
-    ///@dev Then locks the contract.
-
-    function abort() external onlySeller(msg.sender) instate(State.Created) {
-        emit Aborted();
-        state = State.Inactive;
-
-        ///@dev transfer here is direct
-        ///@dev it is reentrancy-safe, because it is
-        ///@dev the last call in this function and has
-        ///@ state already been changed.
-
-        seller.transfer(address(this).balance);
-    }
-
-    /// Comfirm the purchase as customer.
-    ///@dev Transcation has to include `2 * value` ether.
-    /// The ether will be locked until comfirmReceived is called.
-
-    function comfirmPurchase() external instate(State.Created) {
-        emit PurchaseConfirmed();
-        customer = payable(msg.sender);
-        state = State.Locked;
-    }
-
-    /// Comfirm that you (the customer) received the item.
-    /// This will release the locked ether.
-    function comfirmReceived()
-        external
-        onlyCustomer(msg.sender)
-        instate(State.Locked)
+    // Adopting a pet
+    function buyItem(uint256 _itemId, uint256 _price)
+        public
+        payable
+        paidEnough(_price)
+        itemNotSold(_itemId)
+        itemExists(_itemId)
+        returns (uint256)
     {
-        emit ItemReceived();
+        items[_itemId] = Item({
+            id: _itemId,
+            price: _price,
+            buyer: payable(msg.sender)
+        });
+        customers[_itemId] = msg.sender;
 
-        ///it's vital to change the state first because,
-        ///the contracts called using `send` can call in again.
-
-        state = State.Release;
-
-        customer.transfer(value);
+        emit LogSold(_itemId);
+        return _itemId;
     }
 
-    ///this function is called to refund the storeOwner
-    ///it pays back the locked funds of the seller.
-    function refundstoreOwner()
-        external
-        onlySeller(msg.sender)
-        instate(State.Release)
-    {
-        emit SellerRefunded();
+    // Retrieving the items
+    function getInventory() public view onlyOwner returns (Item[16] memory) {
+        return items;
+    }
 
-        state = State.Inactive;
-
-        seller.transfer(3 * value);
+    // Retrieving the customers
+    function getCustomers() public view onlyOwner returns (address[16] memory) {
+        return customers;
     }
 }
