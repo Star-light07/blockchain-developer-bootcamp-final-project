@@ -1,0 +1,44 @@
+[
+  {
+    "id": 0,
+    "item": "Mixer",
+    "picture": "/pink-shop/src/images/pink-mixer.jpg",
+    "price": "$15",
+    "number in stock": 4
+  },
+  {
+    "id": 1,
+    "item": "Ball",
+    "picture": "/pink-shop/src/images/pink-goldbasketball-ball.jpg",
+    "price": "$20",
+    "number in stock": 6
+  },
+  {
+    "id": 2,
+    "item": "Headphones",
+    "picture": "/pink-shop/src/images/headphones.jpg",
+    "price": "$30",
+    "number in stock": 3
+  },
+  {
+    "id": 3,
+    "item": "Wrist watch",
+    "picture": "/pink-shop/src/images/pink-watch.jpg",
+    "price": "$50",
+    "number in stock": 7
+  },
+  {
+    "id": 5,
+    "item": "Roller skates",
+    "picture": "/pink-shop/src/images/skates.jpeg",
+    "price": "$45",
+    "number in stock": 4
+  },
+  {
+    "id": 5,
+    "item": "Bag",
+    "picture": "/pink-shop/src/images/pink-bag.jpg",
+    "price": "$70",
+    "number in stock": 3
+  }
+]
