@@ -14,6 +14,12 @@ This project is a work in progress, here are the necessary improvements to be ma
 -build in functions to tell how many produts are left in stock
 -will be used to advertise new products for the next stock items
 
+## Directory structure
+client: src contains the project's frontend .
+contracts: Smart contracts .
+migrations: Migration files for deploying contracts in contracts directory.
+test: Tests for smart contracts.
+
 
 ###Resources:
 
