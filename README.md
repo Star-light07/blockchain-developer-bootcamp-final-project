@@ -26,26 +26,26 @@ This project is a work in progress, here are the necessary improvements to be ma
 
 1. clone the repository
 2. Install NodeJS (version )
-3. install truffle : npm install -g truffle
-3.install ganache GUI and CLI : npm install -g ganache-cli
+3. install truffle : `npm install -g truffle`
+3.install ganache GUI and CLI : `npm install -g ganache-cli`
 
 4. config the host in "truffle.config"
-5 then run : npm install
+5 then run :` npm install`
 
 ##Getting the app ready:
 
 1.To compile and migrate the contracts, run
 
-truffle compile
-truffle migrate
+`truffle compile`
+`truffle migrate`
 
 2. Then start the DApp via
-  npm run dev
+ ` npm run dev`
   
 3. If this doesn't work, try to open the "index.html" file with live server
 
 ###Running unit tests:
 
-truffle tests
+`truffle test`
 
 
