@@ -99,39 +99,39 @@ App = {
 
     var itemId = parseInt($(event.target).data("id"));
     let item;
-
-    $.getJSON("../items.json", function (data) {
-      item = data.filter((item) => item.id === itemId);
-      console.log(item);
-    });
-
     var soldInstance;
 
-    web3.eth.getAccounts(function (error, accounts) {
-      if (error) {
-        console.log(error);
-      }
+    $.getJSON("../items.json", function (data) {
+      item = data.filter((item) => item.id === itemId)[0];
+      console.log(item);
+      if (item) {
+        web3.eth.getAccounts(function (error, accounts) {
+          if (error) {
+            console.log(error);
+          }
 
-      var account = accounts[0];
+          var account = accounts[0];
 
-      App.contracts.PinkShop.deployed()
-        .then(function (instance) {
-          soldInstance = instance;
+          App.contracts.PinkShop.deployed()
+            .then(function (instance) {
+              soldInstance = instance;
 
-          // Execute buy as a transaction by sending account
-          return soldInstance
-            .buyItem(itemId, item.price, {
-              from: account,
-              value: item.price,
+              // Execute buy as a transaction by sending account
+              return soldInstance
+                .buyItem(itemId, item.price * 10e18, {
+                  value: item.price * 10e18,
+                  from: account,
+                })
+                .then((data) => console.log(data));
             })
-            .then((data) => console.log(data));
-        })
-        .then(function (result) {
-          return App.markSold();
-        })
-        .catch(function (err) {
-          console.log(err.message);
+            .then(function (result) {
+              return App.markSold();
+            })
+            .catch(function (err) {
+              console.log(err.message);
+            });
         });
+      }
     });
   },
 };
