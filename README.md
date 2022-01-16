@@ -4,13 +4,22 @@ This project is  online store that sales pink items, any products. Due to the fa
 ### a walk through
 1. when the customer opens the site, they'll be prompted to connect to their metamask wallet
 2. Then they'll be able to see a page diplaying all the products in stock,
-3. once the customer clicks the buy button, this intialises a transcation
-4. The selected
+3. once the customer clicks the buy button to select a product of choice, this intialises a transcation
+4. If the selected product is in stock, it will check if the money deposited is enough or not
+5.  Then proccess a transction, if the product are not in stock, it won't be proccessed
+ 
 
 This project is a work in progress, here are the necessary improvements to be made in future
 
 -build in functions to tell how many produts are left in stock
 -will be used to advertise new products for the next stock items
+
+
+###Resources:
+
+-A link the APP:
+-change to ropsten//
+-bm cord
 
 
 ## How to access the app on a local machine
@@ -24,14 +33,19 @@ This project is a work in progress, here are the necessary improvements to be ma
 5 then run : npm install
 
 Getting the app ready:
-To compile and migrate the contracts, run
+
+1.To compile and migrate the contracts, run
+
 truffle compile
 truffle migrate
-Then start the DApp via
-npm run dev
-If this doesn't work, try to open the "index.html" file with live server
-.
-Running unit tests:
+
+2. Then start the DApp via
+  npm run dev
+  
+3. If this doesn't work, try to open the "index.html" file with live server
+
+###Running unit tests:
+
 truffle tests
 
 
