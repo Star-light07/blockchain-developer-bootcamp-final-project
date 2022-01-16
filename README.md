@@ -32,7 +32,7 @@ This project is a work in progress, here are the necessary improvements to be ma
 ## How to access the app on a local machine
 
 1. clone the repository
-2. Install NodeJS (version )
+2. Install NodeJS (anything above 0.8.2 )
 3. install truffle : `npm install -g truffle`
    3.install ganache GUI and CLI : `npm install -g ganache-cli`
 
