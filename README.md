@@ -32,7 +32,7 @@ This project is a work in progress, here are the necessary improvements to be ma
 4. config the host in "truffle.config"
 5 then run :` npm install`
 
-##Getting the app ready:
+## Getting the app ready:
 
 1.To compile and migrate the contracts, run
 
@@ -44,7 +44,7 @@ This project is a work in progress, here are the necessary improvements to be ma
   
 3. If this doesn't work, try to open the "index.html" file with live server
 
-###Running unit tests:
+### Running unit tests:
 
 `truffle test`
 
