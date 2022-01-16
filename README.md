@@ -21,12 +21,6 @@ This project is a work in progress, here are the necessary improvements to be ma
 4. test: Tests for smart contracts.
 
 
-###Resources:
-
--A link the APP:
--change to ropsten//
--bm cord
-
 
 ## How to access the app on a local machine
 
