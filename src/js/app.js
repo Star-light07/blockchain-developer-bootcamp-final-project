@@ -3,20 +3,19 @@ App = {
   contracts: {},
 
   init: async function () {
-    // Load pets.
-    $.getJSON("./pets.json", function (data) {
-      var petsRow = $("#petsRow");
-      var petTemplate = $("#petTemplate");
+    // Load items.
+    $.getJSON("../items.json", function (data) {
+      var itemsRow = $("#itemsRow");
+      var itemTemplate = $("#itemTemplate");
 
       for (i = 0; i < data.length; i++) {
-        petTemplate.find(".panel-title").text(data[i].item);
-        petTemplate.find("img").attr("src", data[i].picture);
-        // petTemplate.find(".pet-breed").text(data[i].br);
-        petTemplate.find(".pet-age").text(data[i].price);
-        petTemplate.find(".pet-location").text(data[i].numberinstock);
-        petTemplate.find(".btn-adopt").attr("data-id", data[i].id);
+        itemTemplate.find(".panel-title").text(data[i].item);
+        itemTemplate.find("img").attr("src", data[i].picture);
+        // itemTemplate.find(".item-breed").text(data[i].br);
+        itemTemplate.find(".item-age").text(data[i].price);
+        itemTemplate.find(".btn-buy").attr("data-id", data[i].id);
 
-        petsRow.append(petTemplate.html());
+        itemsRow.append(itemTemplate.html());
       }
     });
 
@@ -51,7 +50,7 @@ App = {
   },
 
   initContract: function () {
-    $.getJSON("../pets.json", function (data) {
+    $.getJSON("../contracts/PinkShop.json", function (data) {
       // Get the necessary contract artifact file and instantiate it with @truffle/contract
       var PinkShopArtifact = data;
       App.contracts.PinkShop = TruffleContract(PinkShopArtifact);
@@ -59,30 +58,30 @@ App = {
       // Set the provider for our contract
       App.contracts.PinkShop.setProvider(App.web3Provider);
 
-      // Use our contract to retrieve and mark the adopted pets
-      return App.markAdopted();
+      // Use our contract to retrieve and mark the bought items
+      return App.markSold();
     });
 
     return App.bindEvents();
   },
 
   bindEvents: function () {
-    $(document).on("click", ".btn-adopt", App.handleAdopt);
+    $(document).on("click", ".btn-buy", App.handleDeal);
   },
 
-  markAdopted: function () {
-    var adoptionInstance;
+  markSold: function () {
+    var soldInstance;
 
     App.contracts.PinkShop.deployed()
       .then(function (instance) {
-        adoptionInstance = instance;
+        soldInstance = instance;
 
-        return adoptionInstance.getAdopters.call();
+        return soldInstance.getCustomers.call();
       })
-      .then(function (adopters) {
-        for (i = 0; i < adopters.length; i++) {
-          if (adopters[i] !== "0x0000000000000000000000000000000000000000") {
-            $(".panel-pet")
+      .then(function (buyers) {
+        for (i = 0; i < buyers.length; i++) {
+          if (buyers[i] !== "0x0000000000000000000000000000000000000000") {
+            $(".panel-item")
               .eq(i)
               .find("button")
               .text("Success")
@@ -95,12 +94,18 @@ App = {
       });
   },
 
-  handleAdopt: function (event) {
+  handleDeal: function (event) {
     event.preventDefault();
 
-    var petId = parseInt($(event.target).data("id"));
+    var itemId = parseInt($(event.target).data("id"));
+    let item;
 
-    var adoptionInstance;
+    $.getJSON("../items.json", function (data) {
+      item = data.filter((item) => item.id === itemId);
+      console.log(item);
+    });
+
+    var soldInstance;
 
     web3.eth.getAccounts(function (error, accounts) {
       if (error) {
@@ -111,13 +116,18 @@ App = {
 
       App.contracts.PinkShop.deployed()
         .then(function (instance) {
-          adoptionInstance = instance;
+          soldInstance = instance;
 
-          // Execute adopt as a transaction by sending account
-          return adoptionInstance.adopt(petId, { from: account });
+          // Execute buy as a transaction by sending account
+          return soldInstance
+            .buyItem(itemId, item.price, {
+              from: account,
+              value: item.price,
+            })
+            .then((data) => console.log(data));
         })
         .then(function (result) {
-          return App.markAdopted();
+          return App.markSold();
         })
         .catch(function (err) {
           console.log(err.message);

@@ -13,8 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.4.1",
-    "ganache": "7.0.0-filecoin.5"
+    "@openzeppelin/contracts": "^4.4.2",
+    "@truffle/hdwallet-provider": "^2.0.0",
+    "batch": "^0.6.1",
+    "ganache": "7.0.0-filecoin.5",
+    "has-ansi": "^5.0.1",
+    "portscanner": "^2.2.0"
   },
   "devDependencies": {
     "lite-server": "^2.3.0",
