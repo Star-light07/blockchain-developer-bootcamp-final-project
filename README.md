@@ -55,4 +55,4 @@ This project is a work in progress, here are the necessary improvements to be ma
 
 `truffle test`
 ## For late submission:
-I actaully submitted and hour earlier but the network was down. It to a whole hour of loading to upload. I hope you bare with me.
+I actually submitted and hour earlier but my network was down. It took a whole hour of loading to upload. I hope you bare with me.
