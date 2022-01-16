@@ -20,7 +20,10 @@ This project is a work in progress, here are the necessary improvements to be ma
 3. migrations: Migration files for deploying contracts in contracts directory.
 4. test: Tests for smart contracts.
 
-
+## Resources
+1. Ethereum address: 0xe0356C19Fba3D1998D50444cb40400835F200066
+2. My walk over video :
+3. Link to the app:
 
 ## How to access the app on a local machine
 
