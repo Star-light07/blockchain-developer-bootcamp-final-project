@@ -27,7 +27,7 @@ This project is a work in progress, here are the necessary improvements to be ma
 
 1. Ethereum address: 0xe0356C19Fba3D1998D50444cb40400835F200066
 2. My walk over video : https://www.loom.com/share/56c5333f820f4200903cc44793e4b1ac
-3. Link to the app: https://star-light07.github.io/blockchain-developer-bootcamp-final-project/
+3. Link to the app: https://sparkling-sky-6927.on.fleek.co
 
 ## How to access the app on a local machine
 
