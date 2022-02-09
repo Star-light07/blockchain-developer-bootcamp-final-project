@@ -25,7 +25,7 @@ This project is a work in progress, here are the necessary improvements to be ma
 
 ## Resources
 
-1. Ethereum address: 0xe0356C19Fba3D1998D50444cb40400835F200066
+1. Ethereum address: 0x0F4745483175f2B627E163c0c0ABaD36fbbdA31a
 2. My walk over video : https://www.loom.com/share/56c5333f820f4200903cc44793e4b1ac
 3. Link to the app: https://sparkling-sky-6927.on.fleek.co
 
