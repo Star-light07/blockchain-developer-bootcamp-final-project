@@ -53,5 +53,4 @@ This project is a work in progress, here are the necessary improvements to be ma
 ### Running unit tests:
 
 `truffle test`
-## For late submission:
-I actually submitted and hour earlier but my network was down. It took a whole hour of loading to upload. I hope you bare with me.
+
